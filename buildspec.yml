@@ -8,16 +8,14 @@ phases:
       - export PATH=$JAVA_HOME/bin:$PATH
       - export MAVEN_HOME=$CODEBUILD_SRC_DIR/Team5/apache-maven-3.9.5
       - export PATH=$MAVEN_HOME/bin:$PATH
-      - cd Team5
       - mvn clean install
 
   build:
     commands:
-      - cd Team5
       - mvn package -DskipTests
 
 artifacts:
   files:
-    - Team5/target/project1.war
+    - target/project1.war
   discard-paths: yes
 
