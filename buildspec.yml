@@ -2,19 +2,22 @@ version: 0.2
 
 phases:
   install:
-    runtime-versions:
-      java: corretto17
     commands:
-      - echo ☑️ Install 단계 시작 !
+      - echo ☑️ Install 단계 시작!
+      - export JAVA_HOME=$CODEBUILD_SRC_DIR/Team5/zulu17.56.15-ca-jdk17.0.14-win_x64
+      - export PATH=$JAVA_HOME/bin:$PATH
+      - export MAVEN_HOME=$CODEBUILD_SRC_DIR/Team5/apache-maven-3.9.5
+      - export PATH=$MAVEN_HOME/bin:$PATH
+      - cd Team5
       - mvn clean install
 
   build:
     commands:
-      - echo 🚧 Build 중 ...
+      - cd Team5
       - mvn package -DskipTests
 
 artifacts:
   files:
-    - target/project1.war
+    - Team5/target/project1.war
   discard-paths: yes
 
