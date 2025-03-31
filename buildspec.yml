@@ -1,3 +1,5 @@
+version: 0.2
+
 phases:
   install:
     runtime-versions:
@@ -15,3 +17,4 @@ artifacts:
   files:
     - target/project1.war
   discard-paths: yes
+
