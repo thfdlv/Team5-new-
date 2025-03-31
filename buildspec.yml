@@ -6,7 +6,7 @@ phases:
       java: corretto17
     commands:
       - echo ☑️ Install 단계 시작!
-      - unzip Team5.zip -d Team5
+      - unzip project1.zip -d Team5        # ← 이름 변경됨
       - export MAVEN_HOME=$CODEBUILD_SRC_DIR/Team5/apache-maven-3.9.5
       - export PATH=$MAVEN_HOME/bin:$PATH
       - cd Team5
@@ -14,7 +14,7 @@ phases:
 
   build:
     commands:
-      - mvn package -DskipTests   # ← 여기 cd Team5 제거됨
+      - mvn package -DskipTests
 
 artifacts:
   files:
