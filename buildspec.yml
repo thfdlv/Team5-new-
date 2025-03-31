@@ -6,9 +6,10 @@ phases:
       java: corretto17
     commands:
       - echo ☑️ Install 단계 시작!
-      - cd Team5
+      - unzip Team5.zip -d Team5         # ✅ 압축 해제
       - export MAVEN_HOME=$CODEBUILD_SRC_DIR/Team5/apache-maven-3.9.5
       - export PATH=$MAVEN_HOME/bin:$PATH
+      - cd Team5
       - mvn clean install
 
   build:
@@ -20,4 +21,3 @@ artifacts:
   files:
     - Team5/target/project1.war
   discard-paths: yes
-
