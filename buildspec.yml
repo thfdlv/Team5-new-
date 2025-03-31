@@ -6,16 +6,18 @@ phases:
       java: corretto17
     commands:
       - echo ☑️ Install 단계 시작!
+      - cd Team5
       - export MAVEN_HOME=$CODEBUILD_SRC_DIR/Team5/apache-maven-3.9.5
       - export PATH=$MAVEN_HOME/bin:$PATH
       - mvn clean install
 
   build:
     commands:
+      - cd Team5
       - mvn package -DskipTests
 
 artifacts:
   files:
-    - target/project1.war
+    - Team5/target/project1.war
   discard-paths: yes
 
