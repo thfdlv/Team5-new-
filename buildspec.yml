@@ -18,5 +18,5 @@ phases:
 
 artifacts:
   files:
-    - Team5/target/project1.war
+    - Team5/target/jsonExam-0.0.1-SNAPSHOT.war
   discard-paths: yes
