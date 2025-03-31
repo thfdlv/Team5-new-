@@ -1,18 +1,17 @@
-version: 0.2
-
 phases:
   install:
     runtime-versions:
       java: corretto17
     commands:
-      - echo ✅ Install 단계 시작!
-      - ./mvnw clean install
+      - echo ☑️ Install 단계 시작 !
+      - mvn clean install
+
   build:
     commands:
-      - echo 🚧 Build 중...
-      - ./mvnw package -DskipTests
+      - echo 🚧 Build 중 ...
+      - mvn package -DskipTests
+
 artifacts:
   files:
     - target/project1.war
   discard-paths: yes
-
