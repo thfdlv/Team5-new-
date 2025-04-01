@@ -2,30 +2,11 @@ version: 0.2
 
 phases:
   install:
-    runtime-versions:
-      java: corretto17
     commands:
-      - echo "[Install 단계] 압축 해제 시작"
       - rm -rf Team5
       - unzip project1.zip -d Team5
-  build:
-    commands:
-      - echo "[Build 단계] Maven build 시작"
       - cd Team5
       - mvn clean package
-  post_build:
-    commands:
-      - echo "🚀 S3로 WAR 업로드 중..."
-      - |
-        if [ -f target/*.war ]; then
-          WAR_FILE=$(ls target/*.war | head -n 1)
-          echo "✅ WAR 파일 발견: $WAR_FILE"
-          aws s3 cp "$WAR_FILE" s3://app-deploy-jp/
-        else
-          echo "❌ WAR 파일이 없습니다! 업로드 실패"
-          exit 1
-        fi
-
 artifacts:
   files:
-    - '**/*'
+    - Team5/target/*.war
