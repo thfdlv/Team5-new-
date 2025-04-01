@@ -19,8 +19,8 @@ phases:
     commands:
       - echo "🚀 S3로 WAR 업로드 중..."
       - |
-        if [ -f ./Team5/target/jsonExam-0.0.1-SNAPSHOT.war ]; then
-          aws s3 cp ./Team5/target/jsonExam-0.0.1-SNAPSHOT.war s3://codepipeline-ap-northeast-1-3a7f194e7885-4948-b1f5-79bc51f17896/
+        if [ -f Team5/target/jsonExam-0.0.1-SNAPSHOT.war ]; then
+          aws s3 cp Team5/target/jsonExam-0.0.1-SNAPSHOT.war s3://codepipeline-ap-northeast-1-3a7f194e7885-4948-b1f5-79bc51f17896/
         else
           echo "❌ WAR 파일이 없습니다! 업로드 실패"
           exit 1
