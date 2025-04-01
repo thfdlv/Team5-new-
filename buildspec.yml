@@ -7,20 +7,25 @@ phases:
     commands:
       - echo "[Install 단계] 압축 해제 시작"
       - unzip project1.zip -d Team5
-      - echo "✅ Java와 Maven은 CodeBuild 이미지에 내장되어 있음"
+      - cd Team5
+      - mvn clean install
 
   build:
     commands:
       - cd Team5
-      - mvn clean install
       - mvn package -DskipTests
 
   post_build:
     commands:
-      - echo "🚀 S3로 WAR 업로드 중..."
+      - echo "📦 생성된 WAR 파일 이름 탐색 중..."
+      - ls -alh Team5/target || echo "❌ target 폴더 없음"
+      - echo "🔍 find로 .war 탐색:"
+      - find Team5/target -name "*.war" || echo "❌ WAR 파일 없음"
       - |
-        if [ -f Team5/target/jsonExam-0.0.1-SNAPSHOT.war ]; then
-          aws s3 cp Team5/target/jsonExam-0.0.1-SNAPSHOT.war s3://codepipeline-ap-northeast-1-3a7f194e7885-4948-b1f5-79bc51f17896/
+        WAR_FILE=$(find Team5/target -name "*.war" | head -n 1)
+        if [ -f "$WAR_FILE" ]; then
+          echo "🎯 발견된 WAR 파일: $WAR_FILE"
+          aws s3 cp "$WAR_FILE" s3://codepipeline-ap-northeast-1-3a7f194e7885-4948-b1f5-79bc51f17896/
         else
           echo "❌ WAR 파일이 없습니다! 업로드 실패"
           exit 1
@@ -28,5 +33,5 @@ phases:
 
 artifacts:
   files:
-    - Team5/target/jsonExam-0.0.1-SNAPSHOT.war
+    - Team5/target/*.war
   discard-paths: yes
