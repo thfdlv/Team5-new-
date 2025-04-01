@@ -6,6 +6,7 @@ phases:
       java: corretto17
     commands:
       - echo "[Install 단계] 압축 해제 시작"
+      - rm -rf Team5
       - unzip project1.zip -d Team5
   build:
     commands:
