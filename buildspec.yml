@@ -7,12 +7,12 @@ phases:
     commands:
       - echo "[Install 단계] 압축 해제 시작"
       - unzip project1.zip -d Team5
-      - cd Team5
-      - mvn clean install
+      - echo "✅ Java와 Maven은 CodeBuild 이미지에 내장되어 있음"
 
   build:
     commands:
       - cd Team5
+      - mvn clean install
       - mvn package -DskipTests
 
   post_build:
