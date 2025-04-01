@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     commands:
-      - rm -rf Team5
+      - rm -rf Team5/target
       - unzip project1.zip -d Team5
       - cd Team5
       - mvn clean package
