@@ -5,16 +5,20 @@ phases:
     runtime-versions:
       java: corretto17
     commands:
-      - echo ☑️ Install 단계 시작!
-      - unzip project1.zip -d Team5        # ← 이름 변경됨
-      - export MAVEN_HOME=$CODEBUILD_SRC_DIR/Team5/apache-maven-3.9.5
-      - export PATH=$MAVEN_HOME/bin:$PATH
+      - echo "[Install 단계] zip 해제 중..."
+      - unzip project1.zip -d Team5
       - cd Team5
       - mvn clean install
 
   build:
     commands:
+      - cd Team5
       - mvn package -DskipTests
+
+  post_build:
+    commands:
+      - echo "🚀 S3로 WAR 업로드 중..."
+      - aws s3 cp Team5/target/jsonExam-0.0.1-SNAPSHOT.war s3://codepipeline-ap-northeast-1-3a7f194e7885-4948-b1f5-79bc51f17896/
 
 artifacts:
   files:
