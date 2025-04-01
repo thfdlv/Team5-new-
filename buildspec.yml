@@ -17,10 +17,7 @@ phases:
 
   post_build:
     commands:
-      - echo "📦 생성된 WAR 파일 이름 탐색 중..."
-      - ls -alh Team5/target || echo "❌ target 폴더 없음"
-      - echo "🔍 find로 .war 탐색:"
-      - find Team5/target -name "*.war" || echo "❌ WAR 파일 없음"
+      - echo "🚀 생성된 WAR 확인 및 업로드"
       - |
         WAR_FILE=$(find Team5/target -name "*.war" | head -n 1)
         if [ -f "$WAR_FILE" ]; then
