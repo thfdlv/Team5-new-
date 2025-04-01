@@ -5,7 +5,7 @@ phases:
     runtime-versions:
       java: corretto17
     commands:
-      - echo "[Install 단계] zip 해제 중..."
+      - echo "[Install 단계] 압축 해제 시작"
       - unzip project1.zip -d Team5
       - cd Team5
       - mvn clean install
