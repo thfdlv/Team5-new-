@@ -9,11 +9,12 @@ phases:
     commands:
       - echo "📦 WAR 파일을 S3에 업로드"
       - aws s3 cp project1.war s3://app-deploy-jp/project1.war
-      - echo "📂 appspec.yml 및 스크립트 복사"
-      - cp appspec.yml scripts/ . 
+      - echo "📂 배포 디렉터리 생성 및 파일 복사"
+      - mkdir -p deploy
+      - cp appspec.yml deploy/
+      - cp -r scripts/ deploy/
+      - cp project1.war deploy/
 
 artifacts:
   files:
-    - appspec.yml
-    - scripts/**
-    - project1.war
+    - deploy/**/*
