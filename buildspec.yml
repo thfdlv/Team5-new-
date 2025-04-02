@@ -3,12 +3,7 @@ version: 0.2
 phases:
   build:
     commands:
-      - echo "✔ build 단계는 생략 (이미 빌드된 WAR 사용)"
-
-  post_build:
-    commands:
-      - echo "🚀 S3에 WAR 파일 복사 중..."
-      - aws s3 cp project1.war s3://app-deploy-jp/project1.war
+      - echo "💜 build 단계는 생략 (이미 빌드된 WAR 사용)"
 
 artifacts:
   files:
