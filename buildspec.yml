@@ -6,7 +6,7 @@ phases:
       java: corretto17
     commands:
       - rm -rf Team5/target
-      - unzip -o project1.zip 
+      - unzip -o project1.zip
       - cd Team5
       - mvn clean package -Dmaven.test.skip=true
 
@@ -18,4 +18,3 @@ artifacts:
   files:
     - Team5/target/*.war
   discard-paths: yes
-
