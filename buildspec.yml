@@ -1,22 +1,19 @@
 version: 0.2
 
 phases:
-  install:
-    runtime-versions:
-      java: corretto17
   build:
     commands:
-      - echo "⚙️ 빌드 시작"
-      - mvn clean package
+      - echo "✔ 빌드 이미 완료됨. 별도 빌드 안함."
+
   post_build:
     commands:
-      - echo "📂 appspec.yml을 배포 폴더로 복사"
-      - cp appspec.yml scripts/ target/
       - echo "📦 WAR 파일을 S3에 업로드"
-      - aws s3 cp target/project1.war s3://app-deploy-jp/project1.war
+      - aws s3 cp project1.war s3://app-deploy-jp/project1.war
+      - echo "📂 appspec.yml 및 스크립트 복사"
+      - cp appspec.yml scripts/ . 
 
 artifacts:
   files:
     - appspec.yml
     - scripts/**
-    - target/project1.war
+    - project1.war
