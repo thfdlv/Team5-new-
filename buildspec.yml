@@ -6,7 +6,7 @@ phases:
       java: corretto17
     commands:
       - rm -rf Team5/target
-      - unzip project1.zip -d Team5
+      - unzip project1.zip 
       - cd Team5
       - mvn clean package -Dmaven.test.skip=true
 
