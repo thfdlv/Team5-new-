@@ -1,11 +1,22 @@
 version: 0.2
 
 phases:
+  install:
+    runtime-versions:
+      java: corretto17
   build:
     commands:
-      - echo "💜 build 단계는 생략 (이미 빌드된 WAR 사용)"
+      - echo "⚙️ 빌드 시작"
+      - mvn clean package
+  post_build:
+    commands:
+      - echo "📂 appspec.yml을 배포 폴더로 복사"
+      - cp appspec.yml scripts/ target/
+      - echo "📦 WAR 파일을 S3에 업로드"
+      - aws s3 cp target/project1.war s3://app-deploy-jp/project1.war
 
 artifacts:
   files:
-    - project1.war
-  discard-paths: yes
+    - appspec.yml
+    - scripts/**
+    - target/project1.war
