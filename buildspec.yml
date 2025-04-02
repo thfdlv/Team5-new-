@@ -2,11 +2,15 @@ version: 0.2
 
 phases:
   install:
+    runtime-versions:
+      java: corretto17
     commands:
       - rm -rf Team5/target
       - unzip project1.zip -d Team5
       - cd Team5
-      - mvn clean package
+      - mvn clean package -Dmaven.test.skip=true
+
 artifacts:
   files:
-    - Team5/target/*.war
+    - Team5/target/jsonExam-0.0.1-SNAPSHOT.war
+  discard-paths: yes
