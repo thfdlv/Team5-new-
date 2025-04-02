@@ -10,7 +10,12 @@ phases:
       - cd Team5
       - mvn clean package -Dmaven.test.skip=true
 
+post_build:
+  commands:
+    - aws s3 cp Team5/target/*.war s3://app-deploy-jp/
+
 artifacts:
   files:
     - Team5/target/*.war
   discard-paths: yes
+
