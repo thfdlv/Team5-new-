@@ -1,20 +1,16 @@
 version: 0.2
 
 phases:
-  install:
-    runtime-versions:
-      java: corretto17
+  build:
     commands:
-      - rm -rf Team5/target
-      - unzip -o project1.zip
-      - cd Team5
-      - mvn clean package -Dmaven.test.skip=true
+      - echo "✔ build 단계는 생략 (이미 빌드된 WAR 사용)"
 
-post_build:
-  commands:
-    - aws s3 cp Team5/target/*.war s3://app-deploy-jp/
+  post_build:
+    commands:
+      - echo "🚀 S3에 WAR 파일 복사 중..."
+      - aws s3 cp project1.war s3://app-deploy-jp/project1.war
 
 artifacts:
   files:
-    - Team5/target/*.war
+    - project1.war
   discard-paths: yes
