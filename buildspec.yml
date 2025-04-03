@@ -3,15 +3,17 @@ version: 0.2
 phases:
   build:
     commands:
-      - echo "♥️ 빌드 이미 완료됨. 별도 빌드 안 함."
+      - echo "🎯 빌드 생략"
   post_build:
     commands:
-      - echo "📦 배포 파일들 정리 중"
+      - echo "📦 deploy 디렉토리 정리 시작"
       - mkdir -p deploy
       - cp appspec.yml deploy/
       - cp -r scripts/ deploy/
       - cp project1.war deploy/
+      - echo "📁 deploy 폴더 내용:"
+      - ls -alR deploy/
+
 artifacts:
   files:
     - deploy/**/*
-    - deploy/**/**/*
