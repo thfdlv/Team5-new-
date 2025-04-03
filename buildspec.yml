@@ -3,16 +3,21 @@ version: 0.2
 phases:
   build:
     commands:
-      - echo "🎯 빌드 생략"
+      - echo "M-/ 빌드 생략"
+
   post_build:
     commands:
-      - echo "📦 deploy 디렉토리 정리 시작"
+      - echo "M-& deploy 디렉토리 정리 시작"
       - mkdir -p deploy
       - cp appspec.yml deploy/
       - cp -r scripts/ deploy/
       - cp project1.war deploy/
-      - echo "📁 deploy 폴더 내용:"
+      - echo "~A deploy 폴더 내용:"
       - ls -alR deploy/
+      
+      # ✅ 사용자 버킷에 복사 추가
+      - echo "☁️ 사용자 버킷(app-deploy-jp)에 업로드 중..."
+      - aws s3 cp deploy/ s3://app-deploy-jp/project1/ --recursive
 
 artifacts:
   files:
