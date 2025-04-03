@@ -3,18 +3,14 @@ version: 0.2
 phases:
   build:
     commands:
-      - echo "✔ 빌드 이미 완료됨. 별도 빌드 안함."
-
+      - echo "♥️ 빌드 이미 완료됨. 별도 빌드 안 함."
   post_build:
     commands:
-      - echo "📦 WAR 파일을 S3에 업로드"
-      - aws s3 cp project1.war s3://app-deploy-jp/project1.war
-      - echo "📂 배포 디렉터리 생성 및 파일 복사"
+      - echo "📦 배포 파일들 정리 중"
       - mkdir -p deploy
       - cp appspec.yml deploy/
       - cp -r scripts/ deploy/
       - cp project1.war deploy/
-
 artifacts:
   files:
     - deploy/**/*
