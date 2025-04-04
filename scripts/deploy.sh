@@ -1,13 +1,16 @@
 #!/bin/bash
-echo "🚀 배포 시작"
 
-# 기존 WAR 삭제
-rm -f /opt/tomcat/webapps/*.war
+echo "🚀 [ApplicationStart] 배포 시작"
 
-# S3에서 새 WAR 복사
-aws s3 cp s3://app-deploy-jp/project1.war /opt/tomcat/webapps/
+WAR_SOURCE="/home/ec2-user/app/project1.war"
+WAR_DEST="/opt/tomcat/tomcat-10/webapps/project1.war"
+
+# WAR 복사
+echo "📦 WAR 복사: $WAR_SOURCE → $WAR_DEST"
+sudo cp "$WAR_SOURCE" "$WAR_DEST"
 
 # Tomcat 재시작
+echo "🔁 Tomcat 재시작"
 sudo systemctl restart tomcat
 
-echo "🎉 배포 완료"
+echo "✅ [ApplicationStart] 배포 완료"

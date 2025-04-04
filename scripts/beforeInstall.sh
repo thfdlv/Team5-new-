@@ -1,10 +1,18 @@
 #!/bin/bash
-set -e
 
-echo "[BeforeInstall] 앱 디렉토리 초기화 중..."
+echo "🔥 [BeforeInstall] 기존 WAR 및 디렉토리 삭제 시작"
 
-if [ -d /home/ec2-user/app ]; then
-  sudo rm -rf /home/ec2-user/app/*
+WAR_FILE="/opt/tomcat/tomcat-10/webapps/project1.war"
+WAR_DIR="/opt/tomcat/tomcat-10/webapps/project1"
+
+if [ -f "$WAR_FILE" ]; then
+  echo "👉 WAR 파일 삭제: $WAR_FILE"
+  sudo rm -f "$WAR_FILE"
 fi
 
-echo "[BeforeInstall] 완료!"
+if [ -d "$WAR_DIR" ]; then
+  echo "👉 explode 디렉토리 삭제: $WAR_DIR"
+  sudo rm -rf "$WAR_DIR"
+fi
+
+echo "✅ [BeforeInstall] 정리 완료"
