@@ -4,8 +4,8 @@ echo "🔧 폴더 및 파일 자동 구성 시작..."
 
 mkdir -p scripts
 mkdir -p .github/workflows
-mkdir -p src/main/java/com/example/demo
-mkdir -p src/main/resources
+mkdir -p project1/src/main/java/com/example/demo
+mkdir -p project1/src/main/resources
 
 # appspec.yml
 cat > appspec.yml <<EOF
@@ -37,12 +37,13 @@ phases:
   build:
     commands:
       - echo "🔨 Maven Build 시작"
-      - mvn clean package
+      - cd project1
+      - mvn clean package -DskipTests
   post_build:
     commands:
       - echo "📦 배포 zip 생성 중"
       - mkdir -p deploy
-      - cp target/project1.war deploy/
+      - cp project1/target/project1.war deploy/
       - cp appspec.yml deploy/
       - cp -r scripts deploy/
       - cd deploy
@@ -85,14 +86,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
       - name: Build with Maven
         run: |
+          cd project1
           mvn clean package -DskipTests
 
       - name: Prepare deploy folder
         run: |
           mkdir deploy
-          cp target/project1.war deploy/
+          cp project1/target/project1.war deploy/
           cp appspec.yml deploy/
           cp -r scripts deploy/
           cd deploy
@@ -109,4 +117,4 @@ EOF
 # 실행 권한 부여
 chmod +x scripts/*.sh
 
-echo "✅ 프로젝트 기본 구조가 완성되었습니다!"
+echo "✅ 프로젝트 기본 구조가 완성되었습니다! 이제 바로 CI/CD 가능해요 🎉"
