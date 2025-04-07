@@ -15,7 +15,7 @@ phases:
     commands:
       - echo "📦 deploy 디렉토리 정리 시작"
       - mkdir -p ../deploy
-      - cp target/project1.war ../deploy/project1.war
+      - cp project1/target/project1.war deploy/project1.war
       - cd ..
       - cp appspec.yml deploy/
       - cp -r scripts deploy/
