@@ -9,7 +9,7 @@ files:
 
 hooks:
   BeforeInstall:
-    - location: scripts/beforeInstall.sh
+    - location: /home/ec2-user/deploy/scripts/beforeInstall.sh
       timeout: 300
       runas: root
   ApplicationStart:
