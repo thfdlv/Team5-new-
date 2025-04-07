@@ -2,3 +2,8 @@ target/
 .idea/
 *.iml
 team5-tokyo.zip
+aws/
+awscliv2.zip
+deploy-check/
+team5-tokyo.zip
+deploy-package.zip

@@ -13,9 +13,9 @@ phases:
 
   post_build:
     commands:
-      - echo "[📦] deploy 디렉토리 정리 시작"
+      - echo "[📦] deploy 디렉토리 구성"
       - mkdir -p ../deploy
-      - cp target/project1.war ../deploy/project1.war  # → EC2로 전달할 WAR
+      - cp target/project1.war ../deploy/project1.war
       - cd ..
       - cp appspec.yml deploy/
       - cp -r scripts deploy/
