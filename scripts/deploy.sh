@@ -1,15 +1,14 @@
 #!/bin/bash
-echo "[🚀] 배포 스크립트 시작"
+echo "🚀 배포 시작"
 
-WAR_FILE="/home/ec2-user/app/project1.war"
-TOMCAT_DIR="/opt/tomcat"
+# 기존 war 제거
+rm -f /opt/tomcat/webapps/*.war
 
-if [ -f "$WAR_FILE" ]; then
-  echo "WAR 파일 복사 중..."
-  cp "$WAR_FILE" "$TOMCAT_DIR/webapps/"
-else
-  echo "WAR 파일이 존재하지 않습니다: $WAR_FILE"
-  exit 1
-fi
+# S3에서 새로운 WAR 파일 복사
+aws s3 cp s3://app-deploy-jp/project1.war /opt/tomcat/webapps/
 
-sudo systemctl start tomcat
+# Tomcat 재시작
+sudo systemctl restart tomcat
+
+echo "🎉 배포 완료"
+
