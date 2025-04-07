@@ -16,7 +16,7 @@ jobs:
 
       - name: Create team5-tokyo.zip including buildspec.yml
         run: |
-          zip -r team5-tokyo.zip appspec.yml scripts/ project1/ -x "*.git*"
+          zip -r team5-tokyo.zip appspec.yml buildspec.yml scripts/ project1/ -x "*.git*"
 
 
 
