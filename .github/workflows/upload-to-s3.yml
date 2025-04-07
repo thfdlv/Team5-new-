@@ -1,50 +1,30 @@
-name: Create deploy-package.zip for CodeDeploy
+name: Upload team5-tokyo.zip to S3
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:   # ✅ 수동 실행 버튼용
+  workflow_dispatch:  # ✅ 이 줄 추가하면 수동 실행 버튼이 생겨!
 
 jobs:
-  build-and-upload:
+  zip-and-upload:
     runs-on: ubuntu-latest
 
-    env:
-      BUCKET_NAME: app-deploy-jp
-      OBJECT_KEY: team5-tokyo-build/deploy-package.zip
-
     steps:
-      - name: 📥 Checkout source code
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: ☕ Set up Java 17
-        uses: actions/setup-java@v4
+      - name: Create team5-tokyo.zip including buildspec.yml
+        run: |
+          zip -r team5-tokyo.zip . -x "*.git*"
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-1
 
-      - name: 🔨 Build with Maven
+      - name: Upload to S3 using AWS CLI
         run: |
-          cd project1
-          mvn clean package -DskipTests
-          cd ..
-
-      - name: 📦 Prepare deploy directory
-        run: |
-          mkdir -p deploy
-          cp appspec.yml deploy/
-          cp project1/target/project1.war deploy/
-          cp -r scripts deploy/
-          chmod +x deploy/scripts/*.sh
-
-      - name: 📁 Zip deploy-package
-        run: zip -r deploy-package.zip deploy/
-
-      - name: ☁️ Upload to S3
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ap-northeast-1
-        run: |
-          aws s3 cp deploy-package.zip s3://${{ env.BUCKET_NAME }}/${{ env.OBJECT_KEY }} --acl private
+          aws s3 cp team5-tokyo.zip s3://app-deploy-jp/team5-tokyo-build/ --acl private
