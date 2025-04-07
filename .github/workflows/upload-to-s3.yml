@@ -16,7 +16,9 @@ jobs:
 
       - name: Create team5-tokyo.zip including buildspec.yml
         run: |
-          zip -r team5-tokyo.zip . -x "*.git*"
+          zip -r team5-tokyo.zip appspec.yml scripts/ project1/ -x "*.git*"
+
+
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
