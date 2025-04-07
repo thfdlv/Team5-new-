@@ -20,6 +20,7 @@ phases:
       - cp appspec.yml deploy/
       - cp -r scripts deploy/
       - echo "[✅] deploy 폴더 구성 완료"
+      - chmod +x deploy/scripts/*.sh      # ✅ 이 줄 추가
       - ls -alR deploy/
 
 artifacts:
