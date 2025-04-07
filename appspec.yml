@@ -1,17 +1,13 @@
 version: 0.0
 os: linux
-
 files:
-  - source: project1.war
-    destination: /home/ec2-user/app
-  - source: scripts/
-    destination: /home/ec2-user/app/scripts
-
+  - source: project1/project1.war
+    destination: /opt/tomcat/webapps/
 hooks:
   BeforeInstall:
-    - location: /home/ec2-user/deploy/scripts/beforeInstall.sh
+    - location: scripts/beforeInstall.sh
       timeout: 300
-      runas: root
+      runas: ec2-user
   ApplicationStart:
     - location: scripts/deploy.sh
       timeout: 300
