@@ -7,11 +7,22 @@ phases:
 
   build:
     commands:
-      - echo "📦 프로젝트 빌드 시작!"
-      - cd project1         # ✅ 이 줄 반드시 추가!
+      - echo "[🛠️] Maven 빌드 시작"
+      - cd project1
       - mvn clean package -DskipTests
 
   post_build:
     commands:
-      - echo "🚀 WAR 파일 S3로 복사 중"
-      - aws s3 cp project1/target/project1.war s3://app-deploy-jp/deploy/project1.war
+      - echo "[📦] deploy 디렉토리 정리 시작"
+      - mkdir -p ../deploy
+      - cp target/project1.war ../deploy/project1.war  # → EC2로 전달할 WAR
+      - cd ..
+      - cp appspec.yml deploy/
+      - cp -r scripts deploy/
+      - echo "[✅] deploy 폴더 구성 완료"
+      - ls -alR deploy/
+
+artifacts:
+  base-directory: deploy
+  files:
+    - '**/*'
