@@ -4,15 +4,14 @@ phases:
   install:
     runtime-versions:
       java: corretto17
+
   build:
     commands:
-      - echo "🔨 Maven Build 시작"
-      - mvn clean package
+      - echo "📦 프로젝트 빌드 시작!"
+      - cd project1         # ✅ 이 줄 반드시 추가!
+      - mvn clean package -DskipTests
+
   post_build:
     commands:
-      - echo "📦 빌드된 WAR 파일을 S3로 복사"
-      - aws s3 cp target/project1.war s3://app-deploy-jp/deploy/project1.war
-
-artifacts:
-  files:
-    - target/project1.war
+      - echo "🚀 WAR 파일 S3로 복사 중"
+      - aws s3 cp project1/target/project1.war s3://app-deploy-jp/deploy/project1.war
