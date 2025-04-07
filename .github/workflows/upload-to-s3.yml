@@ -11,10 +11,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Create ZIP including buildspec.yml
+      - name: Create deploy-package.zip for CodeDeploy
         run: |
-          zip -r team5-tokyo.zip . -x "*.git*"
-
+            mkdir -p deploy
+            cp project1/target/project1.war deploy/
+            cp appspec.yml deploy/
+            cp -r scripts deploy/
+            chmod +x deploy/scripts/*.sh
+            cd deploy
+            zip -r deploy-package.zip .
+          
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
