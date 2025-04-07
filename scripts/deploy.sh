@@ -1,18 +1,15 @@
 #!/bin/bash
+echo "[🚀] 배포 스크립트 시작"
 
-echo "[🚀 DEPLOY] WAR 파일 실행 준비 중..."
+WAR_FILE="/home/ec2-user/app/project1.war"
+TOMCAT_DIR="/opt/tomcat"
 
-echo "[🛑] Tomcat 프로세스 종료 중..."
-sudo pkill -f 'org.apache.catalina.startup.Bootstrap'
+if [ -f "$WAR_FILE" ]; then
+  echo "WAR 파일 복사 중..."
+  cp "$WAR_FILE" "$TOMCAT_DIR/webapps/"
+else
+  echo "WAR 파일이 존재하지 않습니다: $WAR_FILE"
+  exit 1
+fi
 
-echo "[🧹] 기존 WAR 및 디렉터리 삭제 중..."
-sudo rm -f /opt/tomcat/webapps/project1.war
-sudo rm -rf /opt/tomcat/webapps/project1
-
-echo "[📦] 새 WAR 복사"
-sudo cp /home/ec2-user/app/project1.war /opt/tomcat/webapps/
-
-echo "[🔁] Tomcat 재시작 중..."
-sudo /opt/tomcat/bin/startup.sh
-
-echo "[✅] 배포 완료!"
+sudo systemctl start tomcat
