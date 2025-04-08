@@ -1,7 +1,10 @@
 name: Upload WAR zip to S3
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:   # 👉 수동 실행 허용
+  push:                # 👉 자동 실행도 허용
+    branches:
+      - main           # main 브랜치에 푸시될 때 자동 실행
 
 jobs:
   zip-and-upload:
