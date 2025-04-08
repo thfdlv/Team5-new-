@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>이미지 업로드</title>
+    <title><spring:message code="image.upload.title" /></title>
     <style>
         body {
             font-family: 'Malgun Gothic', sans-serif;
@@ -21,9 +21,8 @@
             padding: 30px;
             background: white;
             border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
             text-align: center;
-            animation: fadeIn 1s ease-out;
         }
 
         h2 {
@@ -32,34 +31,50 @@
         }
 
         input[type="file"] {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            width: 80%;
+            display: none;
         }
 
-        button {
-            padding: 12px 30px;
+        .file-label {
+            display: inline-block;
+            padding: 12px 20px;
+            background: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .action-btn {
+            padding: 12px 24px;
             font-size: 16px;
+            font-weight: bold;
             color: white;
             background-color: #19ce60;
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            animation: bounceIn 1s ease;
+            transition: background 0.3s;
         }
 
-        button:hover {
+        .action-btn:hover {
             background-color: #17b550;
-            transform: scale(1.05);
         }
 
         .result-box {
-            margin-top: 30px;
             text-align: left;
-            animation: fadeSlideIn 1s ease;
+            margin-top: 30px;
+        }
+
+        .result-box h3 {
+            margin-bottom: 10px;
         }
 
         .result-box ul {
@@ -73,7 +88,6 @@
 
         .preview {
             margin-top: 30px;
-            animation: fadeSlideIn 1s ease;
         }
 
         .preview img {
@@ -89,28 +103,11 @@
             text-decoration: none;
             color: #19ce60;
             font-weight: bold;
-            transition: color 0.3s ease;
         }
 
         .back-btn:hover {
             text-decoration: underline;
             color: #17b550;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes bounceIn {
-            0%   { transform: scale(0.9); }
-            50%  { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes fadeSlideIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -118,38 +115,65 @@
 
 <div class="container">
     <h2><spring:message code="image.upload.title" /></h2>
-    <form action="/project1/image/upload" method="post" enctype="multipart/form-data">
-    <label for="fileInput" style="
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #f1f1f1;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-        cursor: pointer;
-        margin-bottom: 20px;
-    ">
-        <spring:message code="image.upload.file.label" />
-    </label>
-    <input type="file" id="fileInput" name="imageFile" accept="image/*" style="display: none;" required><br>
 
-    <button type="submit">
-        <spring:message code="image.upload.button" />
-    </button>
-</form>
+    <form id="imageForm" method="post" enctype="multipart/form-data">
+        <input type="file" id="imageFile" name="imageFile" accept="image/*" required>
+        <label for="imageFile" class="file-label">
+            <spring:message code="image.upload.file.label" />
+        </label>
+        <br>
+
+        <div class="button-group">
+            <button type="submit" class="action-btn" onclick="submitForm('/project1/image/labels')">
+                <spring:message code="image.label.button" />
+            </button>
+            <button type="submit" class="action-btn" onclick="submitForm('/project1/image/faces')">
+                <spring:message code="image.face.button" />
+            </button>
+        </div>
+    </form>
 
     <c:if test="${not empty labels}">
-	    <div class="result-box">
-	        <h3><spring:message code="image.analysis.result" /></h3>
-	        <ul>
-	            <c:forEach var="label" items="${labels}">
-	                <li>${label}</li>
-	            </c:forEach>
-	        </ul>
-	    </div>
-	</c:if>
+        <div class="result-box">
+            <h3><spring:message code="image.analysis.result" /></h3>
+            <ul>
+                <c:forEach var="label" items="${labels}">
+                    <li>${label}</li>
+                </c:forEach>
+            </ul>
+        </div>
+    </c:if>
+
+    <c:if test="${not empty faces}">
+        <div class="result-box">
+            <h3><spring:message code="image.face.result" /></h3>
+            <ul>
+                <c:forEach var="face" items="${faces}">
+                    <li>${face}</li>
+                </c:forEach>
+            </ul>
+        </div>
+    </c:if>
+
+   
 
     <a href="/project1/template" class="back-btn">◀ <spring:message code="common.back" /></a>
 </div>
+
+<script>
+    function submitForm(action) {
+        const form = document.getElementById("imageForm");
+        const fileInput = document.getElementById("imageFile");
+
+        if (!fileInput.value) {
+            alert("파일을 선택해주세요.");
+            event.preventDefault();
+            return false;
+        }
+
+        form.action = action;
+    }
+</script>
 
 </body>
 </html>

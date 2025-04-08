@@ -1,6 +1,14 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<%
+    // 현재 날짜를 JSTL 변수에 전달
+    java.util.Date today = new java.util.Date();
+    request.setAttribute("today", today);
+%>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -173,35 +181,29 @@
             display: none;
         }
         
-        .naver-outline-btn {
-    background-color: transparent; /* ✅ 배경 없애기 */
-    color: #03c75a;                /* 네이버 녹색 글자 */
-    border: 2px solid #03c75a;     /* 네이버 테두리 */
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .naver-outline-btn:hover {
-    background-color: #03c75a;
-    color: white;
-  }
-
-  .naver-outline-btn:active {
-    background-color: #02b34a;
-    border-color: #02b34a;
-  }
+        .help-link {
+		    position: absolute;
+		    right: 20px;
+		    top: 50%;
+		    transform: translateY(-50%);
+		    color: white;
+		    font-weight: bold;
+		    text-decoration: none;
+		    font-size: 16px;
+		}
+		
+		.help-link:hover {
+		    text-decoration: underline;
+		}        
     </style>
 </head>
 <body>
 
 
 <header>
-    <div class="container">
+    <div class="container" style="position: relative;">
         <div class="logo">TEAM5</div>
+        <a href="/project1/chatbot" class="help-link">Help</a>
     </div>
 </header>
 
@@ -213,11 +215,12 @@
             <li><a href="community" onclick="showSection('community')"><spring:message code="nav.community"/></a></li>
             <li><a href="weather" onclick="showSection('weather')"><spring:message code="nav.weather"/></a></li>
             <li><a href="news" onclick="showSection('news')"><spring:message code="nav.news"/></a></li>
+            <li> <a href="/project1/image"><spring:message code="nav.image.analysis"/></a></li>
+            <li><a href="/project1/fortune"><spring:message code="nav.fortune"/></a></li>
+
         </ul>
         <a href="login" class="login-link" onclick="return login()"><spring:message code="login"/></a>
-        <button class="naver-button"
-        onclick="location.href='http://www.team5.click/project1/Mypage'">
-  <spring:message code="nav.mypage"/>
+        <button onclick="location.href='http://www.team5.click/project1/Mypage'"><spring:message code="nav.mypage"/></button>
     </div>
 </nav>
 
@@ -234,13 +237,19 @@
                             <div class="news-block" style="cursor: pointer;">
                                 <h4><spring:message code="breaking.economy"/></h4>
                                 <p><spring:message code="economy.description"/></p>
-                                <div class="news-meta"><spring:message code="source.economy"/> · 2025-03-18</div>
+                                <div class="news-meta">
+                                <spring:message code="source.economy"/> · 
+                                <fmt:formatDate value="${today}" pattern="yyyy-MM-dd" />
+                                </div>
                             </div>
                         </a>
                         <div class="news-item">
                             <h4><spring:message code="it.news"/></h4>
                             <p><spring:message code="ai.description"/></p>
-                            <div class="news-meta"><spring:message code="source.it"/> · 2025-03-18</div>
+                            <div class="news-meta">
+                            <spring:message code="source.it"/> · 
+                            <fmt:formatDate value="${today}" pattern="yyyy-MM-dd" />
+                            </div>
                         </div>
                     </div>
                     <div class="news-content hidden" id="news-detail">
